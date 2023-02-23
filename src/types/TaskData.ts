@@ -1,17 +1,17 @@
-export interface Times {
+interface Times {
   wo: string;
   wc: string;
   so: string;
   tc: string;
 }
 
-export interface Sector {
+interface Sector {
   type: string;
   ctr: number[];
   rad?: number;
 }
 
-export interface Wpt {
+interface Wpt {
   id: string;
   tag: string;
   opt: number[];
