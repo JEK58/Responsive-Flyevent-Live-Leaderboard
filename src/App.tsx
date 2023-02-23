@@ -111,7 +111,7 @@ function PilotsList({ liveData }: LiveDataProps) {
   if (!liveData.length) return null;
   // Pilot list starts at index 3
   const listItems = liveData.slice(3).map((item, i) => {
-    // @ts-ignore
+    // @ts-ignore TODO: type this somewhow
     const pilot = item[0];
     const sex = pilot[0] % 2 == 1 ? "m" : "f";
     const pos = pilot[1];
