@@ -61,7 +61,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
         <td className="py-3 md:py-2 px-2">
           <span
             className={
-              "px-2 inline-flex text-xs leading-5 font-semibold rounded-full " +
+              "whitespace-nowrap px-2 inline-flex text-xs leading-5 font-semibold rounded-full  " +
               badgeClass
             }
           >
