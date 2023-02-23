@@ -53,7 +53,6 @@ function App() {
       <TaskInfo taskData={taskData} />
       <hr />
       {!liveData ? <NoData /> : <LiveRanking liveData={liveData} />}
-      <hr />
       <LegendFooter />
     </div>
   );
