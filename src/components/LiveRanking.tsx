@@ -75,7 +75,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
     );
   });
   return (
-    <div className="w-full overflow-x-auto md:columns-2 xl:columns-3 gap-8">
+    <div className="w-full overflow-x-auto md:columns-2 xl:columns-3 gap-6">
       <table className="table-auto w-full">
         {/* <thead>
           <tr className="bg-gray-200 text-gray-600 text-sm font-medium uppercase tracking-wider">
