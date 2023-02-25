@@ -57,7 +57,10 @@ export function LiveRanking({ liveData }: LiveDataProps) {
     if (!isFlying && !isInGoal) badgeClass = "bg-red-100 text-red-800";
 
     return (
-      <tr className="text-gray-700 text-sm even:bg-neutral-50" key={i}>
+      <tr
+        className="text-gray-700 dark:text-slate-400 text-sm even:bg-neutral-50 dark:even:bg-slate-700"
+        key={i}
+      >
         <td className="py-3 md:py-2 px-2 font-semibold">{pilot.pos}</td>
         <td className="py-3 md:py-2 px-2">{pilot.name}</td>
         <td className={"py-3 md:py-2 px-2 " + (landedInESS && "line-through")}>
@@ -88,12 +91,12 @@ export function LiveRanking({ liveData }: LiveDataProps) {
             <th className="py-3 md:py-2 px-4">#</th>
           </tr>
         </thead> */}
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-200 dark:divide-y-0">
             {listItems}
           </tbody>
         </table>
       </div>
-      <div className="p-1 text-gray-600 text-sm">
+      <div className="p-1  text-gray-600 dark:text-slate-400 text-sm">
         <div>Last update: {time}</div>
       </div>
       <RankingLegend />

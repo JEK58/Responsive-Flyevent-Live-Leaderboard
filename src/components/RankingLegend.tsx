@@ -1,6 +1,6 @@
 export function RankingLegend() {
   return (
-    <div className="text-gray-600 text-sm">
+    <div className="dark:bg-slate-800 text-gray-600 dark:text-slate-400 text-sm">
       <ul className="list-disc px-4 my-2">
         {/* <li>Italic text indicates live tracking data.</li>
         <li>

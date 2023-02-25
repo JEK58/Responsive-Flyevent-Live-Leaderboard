@@ -2,7 +2,7 @@ import { FaGithub } from "react-icons/fa";
 
 export function PageFooter() {
   return (
-    <footer className="text-gray-600 text-sm p-2">
+    <footer className="text-gray-600 dark:text-slate-400 text-sm p-2">
       <a
         href="https://github.com/JEK58/Responsive-Flyevent-Live-Leaderboard"
         className="text-xs flex items-center justify-center"
