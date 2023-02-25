@@ -33,6 +33,9 @@ function parsePilotData(data: unknown) {
 
 export function LiveRanking({ liveData }: LiveDataProps) {
   if (!liveData?.length) return null;
+  const timestamp = liveData[0] as number;
+  const time = new Date(timestamp * 1000).toLocaleTimeString();
+
   // Pilot list starts at index 3
   const listItems = liveData.slice(3).map((data, i) => {
     const pilot = parsePilotData(data);
@@ -75,15 +78,22 @@ export function LiveRanking({ liveData }: LiveDataProps) {
     );
   });
   return (
-    <div className="w-full overflow-x-auto md:columns-2 xl:columns-3 gap-6 my-4">
-      <table className="table-auto w-full">
-        {/* <thead>
+    <>
+      <div className="w-full overflow-x-auto md:columns-2 xl:columns-3 gap-6 my-2">
+        <table className="table-auto w-full">
+          {/* <thead>
           <tr className="bg-gray-200 text-gray-600 text-sm font-medium uppercase tracking-wider">
             <th className="py-3 md:py-2 px-4">#</th>
           </tr>
         </thead> */}
-        <tbody className="bg-white divide-y divide-gray-200">{listItems}</tbody>
-      </table>
-    </div>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {listItems}
+          </tbody>
+        </table>
+      </div>
+      <div className="p-1 text-gray-600 text-sm">
+        <div>Last update: {time}</div>
+      </div>
+    </>
   );
 }
