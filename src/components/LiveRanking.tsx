@@ -1,3 +1,5 @@
+import { animated, useTransition } from "@react-spring/web";
+
 interface LiveDataProps {
   liveData?: unknown[];
 }
@@ -35,6 +37,16 @@ export function LiveRanking({ liveData }: LiveDataProps) {
   if (!liveData?.length) return null;
   const timestamp = liveData[0] as number;
   const time = new Date(timestamp * 1000).toLocaleTimeString();
+
+  const foo = liveData.slice(3);
+
+  let height = 10;
+  const transitions = useTransition(foo, {
+    // from: { height: 2, opacity: 0 },
+    // leave: { height: 2, opacity: 0 },
+    // enter: ({ y, height }) => ({ y: 20, height: 10, opacity: 1 }),
+    update: ({ y, height }) => ({ y: 20, height: 10, opacity: 1 }),
+  });
 
   // Pilot list starts at index 3
   const listItems = liveData.slice(3).map((data, i) => {
@@ -87,6 +99,11 @@ export function LiveRanking({ liveData }: LiveDataProps) {
           </tr>
         </thead> */}
           <tbody className="bg-white divide-y divide-gray-200">
+            {transitions((style, item, t, index) => (
+              <animated.tr style={style}>
+                <td>{item[0][3]}</td>
+              </animated.tr>
+            ))}
             {listItems}
           </tbody>
         </table>

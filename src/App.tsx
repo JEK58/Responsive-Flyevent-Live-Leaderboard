@@ -4,8 +4,8 @@ import { LegendFooter } from "./components/LegendFooter";
 import { LiveRanking } from "./components/LiveRanking";
 import { NoData } from "./components/NoData";
 
-const BASE_URL = "https://corsproxy.io/?https://race.airtribune.com/";
-// const BASE_URL = "http://127.0.0.1:5500/src/demo-data/";
+// const BASE_URL = "https://corsproxy.io/?https://race.airtribune.com/";
+const BASE_URL = "http://127.0.0.1:5500/src/demo-data/";
 const LIVE_TASK_URL = BASE_URL + "feed_task.json";
 const LIVE_DATA_URL = BASE_URL + "feed_live.json";
 const REFRESH_INTERVAL = 4000; // in ms
