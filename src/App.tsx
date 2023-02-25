@@ -8,7 +8,8 @@ const BASE_URL = "https://corsproxy.io/?https://race.airtribune.com/";
 // const BASE_URL = "http://127.0.0.1:5500/src/demo-data/";
 const LIVE_TASK_URL = BASE_URL + "feed_task.json";
 const LIVE_DATA_URL = BASE_URL + "feed_live.json";
-const REFRESH_INTERVAL = 3000; // in ms
+const REFRESH_INTERVAL_TASK = 36_000_000; // in ms
+const REFRESH_INTERVAL_LIVE = 3000; // in ms
 
 function App() {
   const [liveData, setLiveData] = useState();
@@ -40,7 +41,6 @@ function App() {
   };
 
   const fetchTaskData = async () => {
-    // TODO: Automatically update task data after x min or hours
     try {
       const res = await fetch(LIVE_TASK_URL + "?ts=" + new Date().getTime());
       setTaskData(await res.json());
@@ -55,8 +55,12 @@ function App() {
   useEffect(() => {
     if (!taskData) fetchTaskData();
     fetchLiveData();
-    const fetchInterval = setInterval(fetchLiveData, REFRESH_INTERVAL);
-    return () => clearInterval(fetchInterval);
+    const fetchInterval = setInterval(fetchLiveData, REFRESH_INTERVAL_LIVE);
+    const fetchIntervalTask = setInterval(fetchTaskData, REFRESH_INTERVAL_TASK);
+    return () => {
+      clearInterval(fetchInterval);
+      clearInterval(fetchIntervalTask);
+    };
   }, [taskData]);
 
   if (!taskData) return <NoData />;
