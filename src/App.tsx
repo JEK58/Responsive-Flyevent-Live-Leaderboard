@@ -34,7 +34,6 @@ function App() {
       setLiveData(data);
       setFailedFetchAttempts(0);
     } catch (error) {
-      // TODO: Show bad connection warning?
       console.log(error);
       setFailedFetchAttempts((f) => f + 1);
     }
