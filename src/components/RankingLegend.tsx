@@ -1,7 +1,7 @@
-export function LegendFooter() {
+export function RankingLegend() {
   return (
-    <footer>
-      <ul className="list-disc p-4 text-gray-600 text-sm">
+    <div className="text-gray-600 text-sm">
+      <ul className="list-disc px-4 my-2">
         {/* <li>Italic text indicates live tracking data.</li>
         <li>
           <b>Bold</b> text confirms the pilot returned tracker
@@ -16,6 +16,6 @@ export function LegendFooter() {
           Fading position means old data. Their position is better than shown.
         </li> */}
       </ul>
-    </footer>
+    </div>
   );
 }

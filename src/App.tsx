@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { TaskInfo } from "./components/TaskInfo";
-import { LegendFooter } from "./components/LegendFooter";
 import { LiveRanking } from "./components/LiveRanking";
 import { NoData } from "./components/NoData";
+import { PageFooter } from "./components/PageFooter";
 
 const BASE_URL = "https://corsproxy.io/?https://race.airtribune.com/";
 // const BASE_URL = "http://127.0.0.1:5500/src/demo-data/";
@@ -58,11 +58,13 @@ function App() {
   if (!taskData) return <NoData />;
 
   return (
-    <div className="p-2">
-      <TaskInfo taskData={taskData} />
-      <hr />
-      {!liveData ? <NoData /> : <LiveRanking liveData={liveData} />}
-      <LegendFooter />
+    <div className="p-2 flex flex-col h-screen">
+      <div className="flex-grow">
+        <TaskInfo taskData={taskData} />
+        <hr />
+        {!liveData ? <NoData /> : <LiveRanking liveData={liveData} />}
+      </div>
+      <PageFooter />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { RankingLegend } from "./RankingLegend";
+
 interface LiveDataProps {
   liveData?: unknown[];
 }
@@ -94,6 +96,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
       <div className="p-1 text-gray-600 text-sm">
         <div>Last update: {time}</div>
       </div>
+      <RankingLegend />
     </>
   );
 }
