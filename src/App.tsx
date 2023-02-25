@@ -8,11 +8,14 @@ const BASE_URL = "https://corsproxy.io/?https://race.airtribune.com/";
 // const BASE_URL = "http://127.0.0.1:5500/src/demo-data/";
 const LIVE_TASK_URL = BASE_URL + "feed_task.json";
 const LIVE_DATA_URL = BASE_URL + "feed_live.json";
-const REFRESH_INTERVAL = 4000; // in ms
+const REFRESH_INTERVAL = 3000; // in ms
 
 function App() {
   const [liveData, setLiveData] = useState();
   const [taskData, setTaskData] = useState();
+  const [failedFetchAttempts, setFailedFetchAttempts] = useState(0);
+
+  const showConnectionWarning = failedFetchAttempts > 2;
 
   const fetchLiveData = async () => {
     if (!taskData) return;
@@ -29,9 +32,11 @@ function App() {
       // if (liveData && data[0] > liveData[0]) setLiveData(data);
 
       setLiveData(data);
+      setFailedFetchAttempts(0);
     } catch (error) {
       // TODO: Show bad connection warning?
       console.log(error);
+      setFailedFetchAttempts((f) => f + 1);
     }
   };
 
@@ -60,7 +65,10 @@ function App() {
   return (
     <div className="p-2 flex flex-col h-screen">
       <div className="flex-grow">
-        <TaskInfo taskData={taskData} />
+        <TaskInfo
+          taskData={taskData}
+          showConnectionWarning={showConnectionWarning}
+        />
         <hr />
         {!liveData ? <NoData /> : <LiveRanking liveData={liveData} />}
       </div>
