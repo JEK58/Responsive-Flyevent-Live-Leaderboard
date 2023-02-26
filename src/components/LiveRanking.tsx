@@ -58,12 +58,12 @@ export function LiveRanking({ liveData }: LiveDataProps) {
 
     return (
       <tr
-        className="text-gray-700 dark:text-slate-400 text-sm even:bg-neutral-50 dark:even:bg-slate-700"
+        className="text-gray-700 dark:text-slate-400 text-sm even:bg-neutral-100 dark:even:bg-slate-700 break-inside-avoid-column"
         key={i}
       >
-        <td className="py-3 md:py-2 px-2 font-semibold">{pilot.pos}</td>
+        <td className="pl-3 py-3 md:py-2 font-semibold">{pilot.pos}</td>
         <td className="py-3 md:py-2 px-2">{pilot.name}</td>
-        <td className={"py-3 md:py-2 px-2 " + (landedInESS && "line-through")}>
+        <td className={"py-3 md:py-2 px-2" + (landedInESS && "line-through")}>
           {pilot.essTime ? pilot.essTime : pilot.distance}
         </td>
         <td className="py-3 md:py-2 px-2">
@@ -76,7 +76,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
             {isInGoal ? "Goal 🎯" : !isFlying ? "Landed" : pilot.amsl}
           </span>
         </td>
-        <td className="py-3 md:py-2 px-2">
+        <td className="py-3 md:py-2 pr-3">
           {pilot.leading !== "0%" && pilot.leading}
         </td>
       </tr>
@@ -91,12 +91,10 @@ export function LiveRanking({ liveData }: LiveDataProps) {
             <th className="py-3 md:py-2 px-4">#</th>
           </tr>
         </thead> */}
-          <tbody className="divide-y divide-gray-200 dark:divide-y-0">
-            {listItems}
-          </tbody>
+          <tbody>{listItems}</tbody>
         </table>
       </div>
-      <div className="p-1  text-gray-600 dark:text-slate-400 text-sm">
+      <div className="p-1 px-3  text-gray-600 dark:text-slate-400 text-sm">
         <div>Last update: {time}</div>
       </div>
       <RankingLegend />

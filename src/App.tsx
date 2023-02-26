@@ -66,7 +66,7 @@ function App() {
   if (!taskData) return <NoData />;
 
   return (
-    <div className="p-2 flex flex-col min-h-screen dark:bg-slate-800 ">
+    <div className="flex flex-col min-h-screen dark:bg-slate-800 ">
       <div className="flex-grow">
         <TaskInfo
           taskData={taskData}
