@@ -39,6 +39,8 @@ export function LiveRanking({ liveData }: LiveDataProps) {
   const time = new Date(timestamp * 1000).toLocaleTimeString();
 
   // Pilot list starts at index 3
+  console.log(parsePilotData(liveData.slice(3)[36]));
+
   const listItems = liveData.slice(3).map((data, i) => {
     const pilot = parsePilotData(data);
 
@@ -58,15 +60,21 @@ export function LiveRanking({ liveData }: LiveDataProps) {
 
     return (
       <tr
-        className="text-gray-700 dark:text-slate-400 text-sm even:bg-neutral-100 dark:even:bg-slate-700 break-inside-avoid-column"
+        className="2xl:text-xs text-gray-700 dark:text-slate-400 text-sm even:bg-neutral-100 dark:even:bg-slate-700 break-inside-avoid-column"
         key={i}
       >
-        <td className="pl-3 py-3 md:py-2 font-semibold">{pilot.pos}</td>
-        <td className="py-3 md:py-2 px-2">{pilot.name}</td>
-        <td className={"py-3 md:py-2 px-2" + (landedInESS && "line-through")}>
+        <td className="pl-3 2xl:py-1 py-3 md:py-2 font-semibold">
+          {pilot.pos}
+        </td>
+        <td className="py-3 2xl:py-1 md:py-2 px-2">{pilot.name}</td>
+        <td
+          className={
+            "py-3 2xl:py-1 md:py-2 px-2 " + (landedInESS && "line-through")
+          }
+        >
           {pilot.essTime ? pilot.essTime : pilot.distance}
         </td>
-        <td className="py-3 md:py-2 px-2">
+        <td className="py-3 2xl:py-1 md:py-2 px-2">
           <span
             className={
               "whitespace-nowrap px-2 inline-flex text-xs leading-5 font-semibold rounded-full  " +
@@ -76,7 +84,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
             {isInGoal ? "Goal 🎯" : !isFlying ? "Landed" : pilot.amsl}
           </span>
         </td>
-        <td className="py-3 md:py-2 pr-3">
+        <td className="py-3 2xl:py-1 md:py-2 pr-3">
           {pilot.leading !== "0%" && pilot.leading}
         </td>
       </tr>
@@ -84,7 +92,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
   });
   return (
     <>
-      <div className="w-full overflow-x-auto md:columns-2 xl:columns-3 gap-6 my-2">
+      <div className="w-full overflow-x-auto md:columns-2 xl:columns-3 2xl:columns-5  gap-6 my-2">
         <table className="table-auto w-full">
           {/* <thead>
           <tr className="bg-gray-200 text-gray-600 text-sm font-medium uppercase tracking-wider">
