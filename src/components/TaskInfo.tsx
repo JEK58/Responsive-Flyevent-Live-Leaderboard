@@ -22,7 +22,7 @@ export function TaskInfo({ taskData, showConnectionWarning }: TaskDataProps) {
   return (
     <header className="my-4 ml-2">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-200">
+        <h1 className="text-2xl mb-2 font-bold text-gray-700 dark:text-slate-200">
           {taskData.event}
         </h1>
         <ConnectionIndicator badConnection={showConnectionWarning} />

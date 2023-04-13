@@ -1,36 +1,15 @@
 import { RankingLegend } from "./RankingLegend";
+import { formatName } from "../util/format-name";
+import { useEffect, useRef, useState } from "react";
+import { parsePilotData } from "../util/parse-pilot-data";
+import { checkEssTime } from "../util/time-utils";
+import {
+  savePrefsToLocalStorage,
+  getPrefsFromLocalStorage,
+} from "../util/local-storage";
 
 interface LiveDataProps {
   liveData?: unknown[];
-}
-
-function parsePilotData(data: unknown) {
-  // @ts-ignore TODO: type this somehow
-  const raw = data[0];
-  const pilot = {
-    sex: raw[0] % 2 == 1 ? "m" : "f",
-    pos: raw[1],
-    id: raw[2],
-    name: raw[3].replaceAll("_", " "),
-    nation: raw[4],
-    glider: raw[5],
-    amsl: raw[6] + "m",
-    agl: raw[7] + "m",
-    speed: raw[8],
-    vario: raw[9],
-    bearing: raw[10],
-    grGoal: raw[11],
-    grPilot: raw[12],
-    arrGoal: raw[13],
-    trackerState: raw[14], // "" | "Landed" | "At HQ" | "x min"
-    timeLanded: raw[15], // "" | "xx:xx"
-    leading: raw[16],
-    location: raw[17], // "GOAL" | "At HQ
-    target: raw[18],
-    distance: raw[19] + "km",
-    essTime: raw[20],
-  };
-  return pilot;
 }
 
 export function LiveRanking({ liveData }: LiveDataProps) {
@@ -38,9 +17,52 @@ export function LiveRanking({ liveData }: LiveDataProps) {
   const timestamp = liveData[0] as number;
   const time = new Date(timestamp * 1000).toLocaleTimeString();
 
-  // Pilot list starts at index 3
-  console.log(parsePilotData(liveData.slice(3)[36]));
+  // Toggle between Leading points and score
+  const [autoToggleActive, setAutoToggleActive] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [bestTime, setBestTime] = useState<Date>(new Date(8640000000000000));
 
+  const intervalRef = useRef<null | number>(null);
+
+  function findBestTime(time?: string) {
+    if (!time) return;
+    const date = new Date(`1970-01-01T${time}Z`);
+    if (date < bestTime) setBestTime(date);
+  }
+
+  function toggleIndex() {
+    setIndex((prevIndex) => (prevIndex + 1) % 2);
+  }
+
+  function handleAutoToggleClicked(value: boolean) {
+    savePrefsToLocalStorage(value);
+    setAutoToggleActive(value);
+  }
+
+  // Read prefs from local storage
+  if (typeof window !== "undefined") {
+    const prefs = getPrefsFromLocalStorage() ?? false;
+    if (prefs != autoToggleActive) setAutoToggleActive(prefs);
+  }
+
+  // Toggle between leading points and score every three seconds
+  useEffect(() => {
+    if (!autoToggleActive) return;
+    intervalRef.current = setInterval(() => {
+      toggleIndex();
+    }, 3000);
+
+    return () => {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [autoToggleActive]);
+
+  // Find the best ESS time
+  liveData.slice(3).map((data) => findBestTime(parsePilotData(data).essTime));
+
+  // Pilot list starts at index 3
   const listItems = liveData.slice(3).map((data, i) => {
     const pilot = parsePilotData(data);
 
@@ -52,6 +74,25 @@ export function LiveRanking({ liveData }: LiveDataProps) {
     const isInGoal =
       !isFlying && pilot.essTime !== "" && pilot.location === "GOAL";
 
+    const isFastestInGoal =
+      pilot.essTime && checkEssTime(pilot.essTime, bestTime).includes("+");
+
+    // This values are considered online. Any tracker data > 6 min is considered stale
+    const onlineTrackerStates = [
+      "0 min",
+      "1 min",
+      "2 min",
+      "3 min",
+      "4 min",
+      "5 min",
+      "6 min",
+      "OK",
+      "At HQ",
+      "Landed",
+    ];
+
+    const staleData = !onlineTrackerStates.includes(pilot.trackerState);
+
     // State Badge Color
     let badgeClass = "";
     if (isInGoal) badgeClass = "bg-violet-200 text-violet-800";
@@ -62,17 +103,20 @@ export function LiveRanking({ liveData }: LiveDataProps) {
       <tr
         className="2xl:text-xs text-gray-700 dark:text-slate-400 text-sm even:bg-neutral-100 dark:even:bg-slate-700 break-inside-avoid-column"
         key={i}
+        onClick={toggleIndex}
       >
         <td className="pl-3 2xl:py-1 py-3 md:py-2 font-semibold">
-          {pilot.pos}
+          {staleData ? "⏳" : pilot.pos}
         </td>
-        <td className="py-3 2xl:py-1 md:py-2 px-2">{pilot.name}</td>
+        <td className="py-3 2xl:py-1 md:py-2 px-2">{formatName(pilot.name)}</td>
         <td
-          className={
-            "py-3 2xl:py-1 md:py-2 px-2 " + (landedInESS && "line-through")
-          }
+          className={`py-3 2xl:py-1 md:py-2 px-2 ${
+            landedInESS ? "line-through" : ""
+          }`}
         >
-          {pilot.essTime ? pilot.essTime : pilot.distance}
+          {pilot.essTime
+            ? checkEssTime(pilot.essTime, bestTime)
+            : pilot.distance}
         </td>
         <td className="py-3 2xl:py-1 md:py-2 px-2">
           <span
@@ -84,8 +128,10 @@ export function LiveRanking({ liveData }: LiveDataProps) {
             {isInGoal ? "Goal 🎯" : !isFlying ? "Landed" : pilot.amsl}
           </span>
         </td>
-        <td className="py-3 2xl:py-1 md:py-2 pr-3">
-          {pilot.leading !== "0%" && pilot.leading}
+
+        <td className="py-3 2xl:py-1 md:py-2 pr-3 min-w-4em">
+          {index === 0 && pilot.leading}
+          {index === 1 && pilot.score.split(".")[0] + " P"}
         </td>
       </tr>
     );
@@ -102,8 +148,18 @@ export function LiveRanking({ liveData }: LiveDataProps) {
           <tbody>{listItems}</tbody>
         </table>
       </div>
-      <div className="p-1 px-3  text-gray-600 dark:text-slate-400 text-sm">
+      <div className="p-1 px-3  text-gray-600 dark:text-slate-400 text-sm  flex justify-between">
         <div>Last update: {time}</div>
+        <div className="text-right flex items-center">
+          <label htmlFor="auto-toggle"> Auto toggle LP / Score</label>
+          <input
+            id="auto-toggle"
+            type="checkbox"
+            checked={autoToggleActive}
+            onChange={(e) => handleAutoToggleClicked(e.target.checked)}
+            className="h-4 w-4 mx-1 rounded-md border border-blue-gray-200 "
+          />
+        </div>
       </div>
       <RankingLegend />
     </>
