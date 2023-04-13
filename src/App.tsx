@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { TaskInfo } from "./components/TaskInfo";
 import { LiveRanking } from "./components/LiveRanking";
 import { NoData } from "./components/NoData";
