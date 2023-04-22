@@ -1,6 +1,12 @@
 
 # Changelog
 
+### 2023-04-22
+
+**Improvements:**
+
+- Does now support multiple comps at the same time by adding the comp id to the URL. Eg: http://race.stephanschoepe.de/2453/
+
 ### 2023-04-13
 
 **Improvements:**

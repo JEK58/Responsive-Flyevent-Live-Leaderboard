@@ -3,19 +3,23 @@ import { TaskInfo } from "./components/TaskInfo";
 import { LiveRanking } from "./components/LiveRanking";
 import { NoData } from "./components/NoData";
 import { PageFooter } from "./components/PageFooter";
-
-const BASE_URL = "https://corsproxy.io/?https://race.airtribune.com/";
-// const BASE_URL = "http://127.0.0.1:5500/src/demo-data/";
-const LIVE_TASK_URL = BASE_URL + "feed_task.json";
-const LIVE_DATA_URL = BASE_URL + "feed_live.json";
-const REFRESH_INTERVAL_TASK = 36_000_000; // in ms
-const REFRESH_INTERVAL_LIVE = 3000; // in ms
+import { useParams } from "react-router-dom";
 
 function App() {
+  const BASE_URL = "https://corsproxy.io/?https://race.airtribune.com/";
+  // const BASE_URL = "http://127.0.0.1:5500/src/demo-data/";
+
+  const REFRESH_INTERVAL_TASK = 36_000_000; // in ms
+  const REFRESH_INTERVAL_LIVE = 3000; // in ms
+
   const [liveData, setLiveData] = useState();
   const [taskData, setTaskData] = useState();
   const [failedFetchAttempts, setFailedFetchAttempts] = useState(0);
 
+  const { id } = useParams();
+
+  const LIVE_TASK_URL = BASE_URL + id + "/feed_task.json";
+  const LIVE_DATA_URL = BASE_URL + id + "/feed_live.json";
   const showConnectionWarning = failedFetchAttempts > 2;
 
   const fetchLiveData = async () => {
@@ -63,6 +67,7 @@ function App() {
     };
   }, [taskData]);
 
+  if (!id) return <h4>Let me check what to show here</h4>;
   if (!taskData) return <NoData />;
 
   return (
