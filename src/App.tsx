@@ -16,6 +16,7 @@ function App() {
   const search = useLocation().search;
   const compId = new URLSearchParams(search).get("id");
   const useCorsProxy = import.meta.env.VITE_USE_CORS_PROXY === "true";
+  console.log("🚀 ~ useCorsProxy:", useCorsProxy);
 
   const BASE_URL = useCorsProxy
     ? "https://corsproxy.io/?https://race.airtribune.com/"
