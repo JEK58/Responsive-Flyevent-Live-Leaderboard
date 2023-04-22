@@ -6,6 +6,7 @@
 **Improvements:**
 
 - Added support for multiple comps at the same time. Eg: https://race.stephanschoepe.de/?id=2724
+- Active comp list added at root level
 
 ### 2023-04-13
 

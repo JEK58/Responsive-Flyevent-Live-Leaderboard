@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "VITE_USE_CORS_PROXY=true vite",
+    "build": "VITE_USE_CORS_PROXY=true tsc && vite build",
+    "build-airtribune": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
