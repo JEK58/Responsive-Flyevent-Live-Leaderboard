@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "VITE_USE_CORS_PROXY=true vite",
-    "build": "VITE_USE_CORS_PROXY=true tsc && vite build",
+    "build": "tsc && VITE_USE_CORS_PROXY=true vite build",
     "build-airtribune": "tsc && vite build",
     "preview": "vite preview"
   },
