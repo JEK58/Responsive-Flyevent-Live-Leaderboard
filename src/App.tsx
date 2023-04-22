@@ -27,7 +27,7 @@ function App() {
 
   const LIVE_TASK_URL = BASE_URL + compId + "/feed_task.json";
   const LIVE_DATA_URL = BASE_URL + compId + "/feed_live.json";
-  const COMP_LIST_URL = BASE_URL + "/active_comps.json";
+  const COMP_LIST_URL = BASE_URL + "active_comps.json";
 
   const showConnectionWarning = failedFetchAttempts > 2;
 
