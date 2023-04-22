@@ -3,9 +3,13 @@ import { TaskInfo } from "./components/TaskInfo";
 import { LiveRanking } from "./components/LiveRanking";
 import { NoData } from "./components/NoData";
 import { PageFooter } from "./components/PageFooter";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function App() {
+  const search = useLocation().search;
+  const id = new URLSearchParams(search).get("id");
+
+  // const BASE_URL = "https://race.airtribune.com/";
   const BASE_URL = "https://corsproxy.io/?https://race.airtribune.com/";
   // const BASE_URL = "http://127.0.0.1:5500/src/demo-data/";
 
@@ -15,8 +19,6 @@ function App() {
   const [liveData, setLiveData] = useState();
   const [taskData, setTaskData] = useState();
   const [failedFetchAttempts, setFailedFetchAttempts] = useState(0);
-
-  const { id } = useParams();
 
   const LIVE_TASK_URL = BASE_URL + id + "/feed_task.json";
   const LIVE_DATA_URL = BASE_URL + id + "/feed_live.json";

@@ -5,7 +5,7 @@
 
 **Improvements:**
 
-- Does now support multiple comps at the same time by adding the comp id to the URL. Eg: http://race.stephanschoepe.de/2453/
+- Added support for multiple comps at the same time. Eg: https://race.stephanschoepe.de/?id=2724
 
 ### 2023-04-13
 
