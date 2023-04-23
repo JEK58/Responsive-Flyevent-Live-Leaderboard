@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": "Stephan Schöpe",
   "scripts": {
     "dev": "VITE_USE_CORS_PROXY=true vite",
     "build": "tsc && VITE_USE_CORS_PROXY=true vite build",

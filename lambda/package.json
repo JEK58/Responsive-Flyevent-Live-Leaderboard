@@ -1,0 +1,16 @@
+{
+  "name": "create-airtribune-comp-list-lambda-function",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Stephan Schöpe",
+  "license": "MIT",
+  "dependencies": {
+    "basic-ftp": "^5.0.2",
+    "node-fetch": "^3.3.1"
+  }
+}
