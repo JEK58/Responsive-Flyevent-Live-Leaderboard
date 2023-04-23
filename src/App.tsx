@@ -35,7 +35,9 @@ function App() {
     if (!taskData) return;
 
     try {
-      const res = await fetch(LIVE_DATA_URL + "?" + new Date().getTime());
+      const res = await fetch(LIVE_DATA_URL + "?" + new Date().getTime(), {
+        cache: "no-store",
+      });
       const data = await res.json();
 
       // Simple check if data looks like expected
@@ -55,7 +57,9 @@ function App() {
 
   const fetchTaskData = async () => {
     try {
-      const res = await fetch(LIVE_TASK_URL + "?ts=" + new Date().getTime());
+      const res = await fetch(LIVE_TASK_URL + "?ts=" + new Date().getTime(), {
+        cache: "no-store",
+      });
       setTaskData(await res.json());
 
       // Clear old live data that may still be in state
@@ -78,7 +82,9 @@ function App() {
 
   const fetchCompList = async () => {
     try {
-      const res = await fetch(COMP_LIST_URL);
+      const res = await fetch(COMP_LIST_URL, {
+        cache: "no-store",
+      });
       setCompList(await res.json());
     } catch (error) {
       console.log(error);
