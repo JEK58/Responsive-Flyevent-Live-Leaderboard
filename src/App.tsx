@@ -39,9 +39,10 @@ function App() {
       const res = await fetch(LIVE_DATA_URL + "?" + new Date().getTime(), {
         cache: "no-store",
       });
+
+      // Repair JSON as it might be invalid and crash during parsing.
       const string = await res.text();
       const repairedJson = jsonrepair(string);
-      console.log("🚀 ~ string:", string);
       const data = JSON.parse(repairedJson);
 
       // Simple check if data looks like expected
