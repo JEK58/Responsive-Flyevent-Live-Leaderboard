@@ -6,6 +6,7 @@ import { PageFooter } from "./components/PageFooter";
 import { useLocation } from "react-router-dom";
 import { ActiveCompList } from "./components/CompList";
 import { CompList } from "./types/CompList";
+import { jsonrepair } from "jsonrepair";
 
 function App() {
   const [liveData, setLiveData] = useState();
@@ -38,7 +39,10 @@ function App() {
       const res = await fetch(LIVE_DATA_URL + "?" + new Date().getTime(), {
         cache: "no-store",
       });
-      const data = await res.json();
+      const string = await res.text();
+      const repairedJson = jsonrepair(string);
+      console.log("🚀 ~ string:", string);
+      const data = JSON.parse(repairedJson);
 
       // Simple check if data looks like expected
       if (data[2][0].length < 10) throw "Live data is not looking plausible";
