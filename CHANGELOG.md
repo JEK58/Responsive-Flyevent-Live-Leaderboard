@@ -1,6 +1,12 @@
 
 # Changelog
 
+### 2023-06-5
+
+**Improvements:**
+
+- Female pilots marked
+
 ### 2023-04-22
 
 **Improvements:**

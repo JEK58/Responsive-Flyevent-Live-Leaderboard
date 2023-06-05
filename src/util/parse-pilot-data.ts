@@ -2,7 +2,7 @@ export function parsePilotData(data: unknown) {
   // @ts-ignore TODO: type this somehow
   const raw = data[0];
   const pilot = {
-    sex: raw[0] % 2 == 1 ? "m" : "f",
+    sex: raw[0] % 2 == 1 ? "f" : "m",
     pos: raw[1],
     id: raw[2],
     name: raw[3].replaceAll("_", " "),

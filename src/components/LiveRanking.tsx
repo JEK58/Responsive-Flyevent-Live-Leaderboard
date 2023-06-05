@@ -7,6 +7,7 @@ import {
   savePrefsToLocalStorage,
   getPrefsFromLocalStorage,
 } from "../util/local-storage";
+import { IoMdFemale } from "react-icons/io";
 
 interface LiveDataProps {
   liveData?: unknown[];
@@ -109,6 +110,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
           {staleData ? "⏳" : pilot.pos}
         </td>
         <td className="py-3 2xl:py-1 md:py-2 px-2">{formatName(pilot.name)}</td>
+        <td> {pilot.sex === "f" && <IoMdFemale />}</td>
         <td
           className={`py-3 2xl:py-1 md:py-2 px-2 ${
             landedInESS ? "line-through" : ""
