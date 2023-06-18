@@ -21,14 +21,14 @@ export function LiveRanking({ liveData }: LiveDataProps) {
   // Toggle between Leading points and score
   const [autoToggleActive, setAutoToggleActive] = useState(false);
   const [index, setIndex] = useState(0);
-  const [bestTime, setBestTime] = useState<Date>(new Date(8640000000000000));
+  const bestTime = useRef<Date>(new Date(864000000000000));
 
   const intervalRef = useRef<null | number>(null);
 
   function findBestTime(time?: string) {
     if (!time) return;
     const date = new Date(`1970-01-01T${time}Z`);
-    if (date < bestTime) setBestTime(date);
+    if (date < bestTime.current) bestTime.current = date;
   }
 
   function toggleIndex() {
@@ -76,7 +76,8 @@ export function LiveRanking({ liveData }: LiveDataProps) {
       !isFlying && pilot.essTime !== "" && pilot.location === "GOAL";
 
     const isFastestInGoal =
-      pilot.essTime && checkEssTime(pilot.essTime, bestTime).includes("+");
+      pilot.essTime &&
+      checkEssTime(pilot.essTime, bestTime.current).includes("+");
 
     // This values are considered online. Any tracker data > 6 min is considered stale
     const onlineTrackerStates = [
@@ -117,7 +118,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
           }`}
         >
           {pilot.essTime
-            ? checkEssTime(pilot.essTime, bestTime)
+            ? checkEssTime(pilot.essTime, bestTime.current)
             : pilot.distance}
         </td>
         <td className="py-3 2xl:py-1 md:py-2 px-2">
