@@ -18,17 +18,24 @@ function App() {
   const compId = new URLSearchParams(search).get("id");
   const useCorsProxy = import.meta.env.VITE_USE_CORS_PROXY === "true";
 
-  const BASE_URL = useCorsProxy
+  const AIRTRIBUNE_URL = useCorsProxy
     ? "https://corsproxy.io/?https://race.airtribune.com/"
     : "https://race.airtribune.com/";
+
+  const AIRTRIBUNE_COMP = AIRTRIBUNE_URL + compId;
   // const BASE_URL = "http://127.0.0.1:5500/src/demo-data/";
+
+  const PWC_URL = "https://corsproxy.io/?https://live.pwca.org/";
+
+  const isPWC = compId == "pwc";
+  const BASE_URL = isPWC ? PWC_URL : AIRTRIBUNE_COMP;
 
   const REFRESH_INTERVAL_TASK = 36_000_000; // in ms
   const REFRESH_INTERVAL_LIVE = 3000; // in ms
 
-  const LIVE_TASK_URL = BASE_URL + compId + "/feed_task.json";
-  const LIVE_DATA_URL = BASE_URL + compId + "/feed_live.json";
-  const COMP_LIST_URL = BASE_URL + "active_comps.json";
+  const LIVE_TASK_URL = BASE_URL + "/feed_task.json";
+  const LIVE_DATA_URL = BASE_URL + "/feed_live.json";
+  const COMP_LIST_URL = AIRTRIBUNE_URL + "active_comps.json";
 
   const showConnectionWarning = failedFetchAttempts > 2;
 

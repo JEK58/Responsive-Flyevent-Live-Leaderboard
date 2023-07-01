@@ -7,6 +7,8 @@ interface Props {
 export function ActiveCompList({ compList }: Props) {
   const activeComps = compList?.activeComps;
 
+  const useCorsProxy = import.meta.env.VITE_USE_CORS_PROXY === "true";
+
   return (
     <>
       <div className="m-10 text-lg ">
@@ -29,6 +31,16 @@ export function ActiveCompList({ compList }: Props) {
         )}
 
         {!activeComps?.length && "No active comps at the moment 😕"}
+        {useCorsProxy && (
+          <div>
+            <a
+              className="dark:hover:text-slate-100 hover:text-red-800 underline"
+              href={`/?id=pwc`}
+            >
+              PWC
+            </a>
+          </div>
+        )}
       </div>
     </>
   );
