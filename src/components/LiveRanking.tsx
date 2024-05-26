@@ -21,7 +21,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
   const time = new Date(timestamp * 1000).toLocaleTimeString();
 
   // Toggle between Leading points and score
-  const [autoToggleActive, setAutoToggleActive] = useState(false);
+  const [autoToggleActive, setAutoToggleActive] = useState(true);
   const [index, setIndex] = useState(0);
   const bestTime = useRef<Date>(new Date(864000000000000));
 
