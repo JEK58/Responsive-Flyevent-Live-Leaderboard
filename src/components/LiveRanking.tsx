@@ -8,6 +8,8 @@ import {
   getPrefsFromLocalStorage,
 } from "../util/local-storage";
 import { IoMdFemale } from "react-icons/io";
+import ReactCountryFlag from "react-country-flag";
+import { getCountryISO2 } from "../util/iso-3-to-2";
 
 interface LiveDataProps {
   liveData?: unknown[];
@@ -110,10 +112,20 @@ export function LiveRanking({ liveData }: LiveDataProps) {
         <td className="pl-3 2xl:py-1 py-3 md:py-2 font-semibold">
           {staleData ? "⏳" : pilot.pos}
         </td>
-        <td className="py-3 2xl:py-1 md:py-2 px-2">{formatName(pilot.name)}</td>
+        <td>
+          <ReactCountryFlag
+            className="emojiFlag"
+            style={{
+              fontSize: "1.5em",
+              lineHeight: "1.5em",
+            }}
+            countryCode={getCountryISO2(pilot.nation)}
+          />
+        </td>
+        <td className="py-3 2xl:py-1 md:py-2 px-1">{formatName(pilot.name)}</td>
         <td> {pilot.sex === "f" && <IoMdFemale />}</td>
         <td
-          className={`py-3 2xl:py-1 md:py-2 px-2 ${
+          className={`py-3 2xl:py-1 md:py-2 px-1 ${
             landedInESS ? "line-through" : ""
           }`}
         >
@@ -121,7 +133,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
             ? checkEssTime(pilot.essTime, bestTime.current)
             : pilot.distance}
         </td>
-        <td className="py-3 2xl:py-1 md:py-2 px-2">
+        <td className="py-3 2xl:py-1 md:py-2 px-1">
           <span
             className={
               "whitespace-nowrap px-2 inline-flex text-xs leading-5 font-semibold rounded-full  " +
