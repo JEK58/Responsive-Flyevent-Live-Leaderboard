@@ -44,7 +44,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
 
   // Read prefs from local storage
   if (typeof window !== "undefined") {
-    const prefs = getPrefsFromLocalStorage() ?? false;
+    const prefs = getPrefsFromLocalStorage() ?? autoToggleActive;
     if (prefs != autoToggleActive) setAutoToggleActive(prefs);
   }
 
