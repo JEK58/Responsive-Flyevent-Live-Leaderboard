@@ -21,7 +21,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
   const time = new Date(timestamp * 1000).toLocaleTimeString();
 
   // Toggle between Leading points and score
-  const [autoToggleActive, setAutoToggleActive] = useState(true);
+  const [autoToggleActive, setAutoToggleActive] = useState(false);
   const [index, setIndex] = useState(0);
   const bestTime = useRef<Date>(new Date(864000000000000));
 
@@ -144,7 +144,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
           </span>
         </td>
 
-        <td className="py-3 2xl:py-1 md:py-2 pr-3 min-w-4em">
+        <td className="py-3 2xl:py-1 md:py-2 pr-3 min-w-4em whitespace-nowrap">
           {index === 0 && pilot.leading}
           {index === 1 && pilot.score.split(".")[0] + " P"}
         </td>

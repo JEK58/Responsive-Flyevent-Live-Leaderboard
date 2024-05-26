@@ -42,6 +42,9 @@ export function TaskInfo({ taskData, showConnectionWarning }: TaskDataProps) {
         <p className="text-gray-600 dark:text-slate-400 text-sm">
           Final scores may differ with LeadOut and Arrival points.
         </p>
+        <p className="text-gray-600 dark:text-slate-400 text-sm mt-3">
+          Hint: Tap to toggle between leading percentage and points.
+        </p>
       </div>
     </header>
   );
