@@ -1,4 +1,4 @@
-const LS_KEY = "leaderboard-prefs";
+const LS_KEY = "leaderboard_prefs";
 
 type Prefs = {
   showPilotNumber?: boolean;
