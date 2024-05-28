@@ -22,6 +22,7 @@ export function LiveRanking({ liveData }: LiveDataProps) {
 
   // Toggle between Leading points and score
   const [autoToggleActive, setAutoToggleActive] = useState(false);
+  const [showPilotNumber, setShowPilotNumber] = useState(false);
   const [index, setIndex] = useState(0);
   const bestTime = useRef<Date>(new Date(864000000000000));
 
@@ -38,14 +39,29 @@ export function LiveRanking({ liveData }: LiveDataProps) {
   }
 
   function handleAutoToggleClicked(value: boolean) {
-    savePrefsToLocalStorage(value);
+    savePrefsToLocalStorage(value, showPilotNumber);
     setAutoToggleActive(value);
+  }
+
+  function handleShowPilotNumberClicked(value: boolean) {
+    savePrefsToLocalStorage(autoToggleActive, value);
+    setShowPilotNumber(value);
   }
 
   // Read prefs from local storage
   if (typeof window !== "undefined") {
-    const prefs = getPrefsFromLocalStorage() ?? autoToggleActive;
-    if (prefs != autoToggleActive) setAutoToggleActive(prefs);
+    const prefs = getPrefsFromLocalStorage();
+
+    if (prefs) {
+      const {
+        showPilotNumber: showPilotNumberPref,
+        autoToggle: autoTogglePref,
+      } = prefs;
+      if (showPilotNumber != showPilotNumberPref)
+        setShowPilotNumber(showPilotNumberPref ?? false);
+      if (autoToggleActive != autoTogglePref)
+        setAutoToggleActive(autoTogglePref ?? false);
+    }
   }
 
   // Toggle between leading points and score every three seconds
@@ -122,7 +138,10 @@ export function LiveRanking({ liveData }: LiveDataProps) {
             countryCode={getCountryISO2(pilot.nation)}
           />
         </td>
-        <td className="py-3 2xl:py-1 md:py-2 px-1">{formatName(pilot.name)}</td>
+        <td className="py-3 2xl:py-1 md:py-2 px-1">
+          {formatName(pilot.name)}{" "}
+          {showPilotNumber && <span>({Number.parseInt(pilot.id)})</span>}
+        </td>
         <td> {pilot.sex === "f" && <IoMdFemale />}</td>
         <td
           className={`py-3 2xl:py-1 md:py-2 px-1 ${
@@ -172,6 +191,19 @@ export function LiveRanking({ liveData }: LiveDataProps) {
             type="checkbox"
             checked={autoToggleActive}
             onChange={(e) => handleAutoToggleClicked(e.target.checked)}
+            className="h-4 w-4 mx-1 rounded-md border border-blue-gray-200 "
+          />
+        </div>
+      </div>
+      <div className="p-1 px-3  text-gray-600 dark:text-slate-400 text-sm  flex justify-between">
+        <div></div>
+        <div className="text-right flex items-center">
+          <label htmlFor="auto-toggle">Show pilot number</label>
+          <input
+            id="auto-toggle"
+            type="checkbox"
+            checked={showPilotNumber}
+            onChange={(e) => handleShowPilotNumberClicked(e.target.checked)}
             className="h-4 w-4 mx-1 rounded-md border border-blue-gray-200 "
           />
         </div>
