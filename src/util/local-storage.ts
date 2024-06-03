@@ -5,7 +5,7 @@ const Prefs = z.object({
   showPilotNumber: z.boolean(),
 });
 
-const LS_KEY = "leaderboard-prefs";
+const LS_KEY = "leaderboard_prefs";
 
 export const getPrefsFromLocalStorage = () => {
   const ls = localStorage.getItem(LS_KEY);
