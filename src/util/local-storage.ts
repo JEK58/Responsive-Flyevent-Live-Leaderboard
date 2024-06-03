@@ -1,17 +1,24 @@
-const LS_KEY = "leaderboard-prefs";
+import { z } from "zod";
 
-type Prefs = {
-  showPilotNumber?: boolean;
-  autoToggle?: boolean;
-};
+const Prefs = z.object({
+  autoToggle: z.boolean(),
+  showPilotNumber: z.boolean(),
+});
+
+const LS_KEY = "leaderboard-prefs";
 
 export const getPrefsFromLocalStorage = () => {
   const ls = localStorage.getItem(LS_KEY);
   if (ls === null) return;
-  const { showPilotNumber, autoToggle } = JSON.parse(ls);
 
-  return { showPilotNumber, autoToggle } as Prefs;
-  return;
+  try {
+    const result = Prefs.safeParse(JSON.parse(ls));
+
+    if (!result.success) console.log(result.error.message);
+    else return result.data;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const savePrefsToLocalStorage = (
